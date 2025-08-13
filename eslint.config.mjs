@@ -21,6 +21,9 @@ export default tseslint.config(
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
+        ecmaFeatures: {
+          legacyDecorators: true,
+        },
       },
     },
   },
@@ -35,6 +38,12 @@ export default tseslint.config(
           endOfLine: 'auto',
         },
       ],
+    },
+  },
+  {
+    files: ['**/dto/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-call': 'off',
     },
   },
 );
