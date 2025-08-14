@@ -7,6 +7,7 @@ import {
   IsPositive,
   IsString,
   IsUrl,
+  IsUUID,
   Length,
   Matches,
 } from 'class-validator';
@@ -40,7 +41,21 @@ export class CreateTaskDto {
   @Matches(/^\d+$/, { message: 'Только цифры' })
   password: string;
 
-  @IsUrl({}, { message: 'Некорректный формат url' })
+  @IsUrl(
+    {
+      protocols: ['https', 'http'],
+      require_port: false,
+      require_protocol: true,
+      require_valid_protocol: false,
+      host_whitelist: ['localhost', 'google.com'],
+      host_blacklist: ['test.com'],
+    },
+    { message: 'Некорректный формат url' },
+  )
   @IsOptional()
   url: string;
+
+  @IsUUID('4', { message: 'Неверный формат UUID' })
+  @IsOptional()
+  userId: string;
 }
