@@ -11,6 +11,7 @@ import {
   Length,
   Matches,
 } from 'class-validator';
+import { StartsWith } from 'src/common/decorators/starts-with.decorator';
 
 export enum TaskTag {
   WORK = 'work',
@@ -21,6 +22,7 @@ export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
   @Length(3, 20)
+  @StartsWith('pref')
   title: string;
 
   @IsString({ message: 'Должна быть строкой' })

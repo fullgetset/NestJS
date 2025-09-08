@@ -7,6 +7,6 @@ export class UpdateTaskDto {
     message: 'Длинна должна быть в верном диапазоне от 3 до 20 символов',
   })
   title: string;
-  @IsBoolean({message: 'Статус должен быть boolean выражением'})
+  @IsBoolean({ message: 'Статус должен быть boolean выражением' })
   isCompleted: boolean;
 }
