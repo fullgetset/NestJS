@@ -3,11 +3,13 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Post,
   Query,
   Req,
+  Res,
 } from '@nestjs/common';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 
 @Controller()
 export class MovieController {
@@ -41,5 +43,15 @@ export class MovieController {
       query: req.query,
       params: req.params,
     };
+  }
+
+  @Get('response')
+  getResponse(@Res() res: Response) {
+    return res.status(201).json({ message: 'hello' });
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return { id };
   }
 }
