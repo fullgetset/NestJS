@@ -1,57 +1,19 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Headers,
-  Param,
-  Post,
-  Query,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { MovieService } from './movie.service';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Controller()
 export class MovieController {
+  constructor(private readonly movieService: MovieService) {}
+
   @Get()
-  findAll(@Query() query: any) {
-    console.log(query);
-    return JSON.stringify(query);
+  findAll() {
+    return this.movieService.findAll();
   }
 
   @Post()
-  create(@Body() body: { title: string; genre: string }) {
-    return body;
-  }
-
-  @Get('headers')
-  getHeaders(@Headers() headers: any) {
-    return headers;
-  }
-
-  @Get('user-agent')
-  getUserAgent(@Headers('user-agent') userAgent: string) {
-    return { userAgent };
-  }
-
-  @Get('request')
-  getRequestDetails(@Req() req: Request) {
-    return {
-      method: req.method,
-      headers: req.headers,
-      url: req.url,
-      query: req.query,
-      params: req.params,
-    };
-  }
-
-  @Get('response')
-  getResponse(@Res() res: Response) {
-    return res.status(201).json({ message: 'hello' });
-  }
-
-  @Get(':id')
-  findById(@Param('id') id: string) {
-    return { id };
+  create(@Body() dto: CreateMovieDto) {
+    return this.movieService.create(dto);
   }
 }
