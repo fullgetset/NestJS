@@ -1,5 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import type { Request, Response } from 'express';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { MovieDto } from './dto/movie.dto';
 
@@ -14,7 +21,7 @@ export class MovieController {
 
   @Get(':id')
   findById(@Param('id') id: string) {
-    return this.movieService.findById(Number(id));
+    return this.movieService.findById(id);
   }
 
   @Post()
@@ -24,6 +31,11 @@ export class MovieController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() dto: MovieDto) {
-    return this.movieService.update(Number(id), dto);
+    return this.movieService.update(id, dto);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.movieService.delete(id);
   }
 }
