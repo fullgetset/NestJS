@@ -4,12 +4,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { MoviePosterEntity } from './poster.entity';
 
 export enum Genre {
   ACTION = 'action',
@@ -67,6 +70,13 @@ export class MovieEntity {
   })
   genre: Genre;
 
+  @Column({
+    name: 'poster_id',
+    type: 'uuid',
+    nullable: true,
+  })
+  posterId: string;
+
   @OneToMany(() => ReviewEntity, (review) => review.movie)
   reviews: ReviewEntity[];
 
@@ -77,6 +87,13 @@ export class MovieEntity {
     inverseJoinColumn: { name: 'actor_id', referencedColumnName: 'id' },
   })
   actors: ActorEntity[];
+
+  @OneToOne(() => MoviePosterEntity, (poster) => poster.movie, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'poster_id' })
+  poster: MoviePosterEntity | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -25,3 +25,6 @@ export function StartsWith(
     });
   };
 }
+
+// @StartsWith('ABC', { message: 'Код должен начинаться с "ABC"' })
+// code: string;
