@@ -1,4 +1,8 @@
-import { Module } from '@nestjs/common';
+import {
+  type MiddlewareConsumer,
+  Module,
+  type NestModule,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MovieModule } from './movie/movie.module';
@@ -7,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getTypeOrmConfig } from './config/typeorm.config';
 import { ReviewModule } from './review/review.module';
 import { ActorModule } from './actor/actor.module';
+import { LoggingMiddleware } from './common/middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -25,4 +30,8 @@ import { ActorModule } from './actor/actor.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes('*');
+  }
+}
