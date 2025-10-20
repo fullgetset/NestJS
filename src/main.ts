@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { loggingMiddleware } from './common/middlewares/logger.middleware';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { MovieModule } from './movie/movie.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,7 +26,9 @@ async function bootstrap() {
     )
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    include: [MovieModule],
+  });
 
   SwaggerModule.setup('/swagger', app, document);
 
