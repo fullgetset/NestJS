@@ -30,7 +30,10 @@ async function bootstrap() {
     include: [MovieModule],
   });
 
-  SwaggerModule.setup('/swagger', app, document);
+  SwaggerModule.setup('/swagger', app, document, {
+    jsonDocumentUrl: '/', // для генерации на фронте
+    yamlDocumentUrl: '',
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 }
