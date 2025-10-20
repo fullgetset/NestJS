@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
-import { MovieDto } from './dto/movie.dto';
+import { MovieDto, MovieResponse } from './dto/movie.dto';
 import {
   ApiHeader,
   ApiOperation,
@@ -30,6 +30,7 @@ export class MovieController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Фильмы найдены',
+    type: MovieResponse,
   })
   @Get()
   findAll() {
@@ -48,11 +49,6 @@ export class MovieController {
     status: HttpStatus.NOT_FOUND,
     description: 'Фильм не найден',
   })
-  /*  @ApiParam({
-    name: 'id',
-    type: 'string',
-    description: 'id фильма',
-  })*/
   @ApiHeader({
     name: 'X-Auth-token',
     description: 'Токен авторизации',
@@ -71,14 +67,6 @@ export class MovieController {
     summary: 'Создать фильм',
     description: 'Создание фильма',
   })
-  /*  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        title: { type: 'string', example: 'Fight Night' },
-      },
-    },
-  }) */
   @Post()
   create(@Body() dto: MovieDto) {
     return this.movieService.create(dto);
