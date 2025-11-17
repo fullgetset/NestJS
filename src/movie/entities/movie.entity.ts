@@ -80,7 +80,7 @@ export class MovieEntity {
   @OneToMany(() => ReviewEntity, (review) => review.movie)
   reviews: ReviewEntity[];
 
-  @ManyToMany(() => ActorEntity, (actor) => actor.movies)
+  @ManyToMany(() => ActorEntity, (actor) => actor.movies, { nullable: true })
   @JoinTable({
     name: 'movie_actors',
     joinColumn: { name: 'movie_id', referencedColumnName: 'id' },

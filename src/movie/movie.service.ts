@@ -45,15 +45,18 @@ export class MovieService {
 
   async create(dto: MovieDto): Promise<MovieEntity> {
     const { title, releaseYear, actorIds, imageUrl } = dto;
+    let actors: ActorEntity[] = [];
 
-    const actors = await this.actorRepository.find({
-      where: {
-        id: In(actorIds),
-      },
-    });
+    if (actorIds && actorIds.length) {
+      actors = await this.actorRepository.find({
+        where: {
+          id: In(actorIds),
+        },
+      });
 
-    if (!actors || !actors.length) {
-      throw new NotFoundException('Один или несколько актеров не найдены!');
+      if (!actors || !actors.length) {
+        throw new NotFoundException('Один или несколько актеров не найдены!');
+      }
     }
 
     let poster: MoviePosterEntity | null = null;
@@ -66,8 +69,8 @@ export class MovieService {
     const movie = this.movieRepository.create({
       title,
       releaseYear,
-      poster,
-      actors,
+      poster: poster ?? null,
+      actors: actors ?? [],
     });
 
     return await this.movieRepository.save(movie);
@@ -77,6 +80,7 @@ export class MovieService {
     const movie = await this.findById(id);
 
     Object.assign(movie, dto);
+
     await this.movieRepository.save(movie);
 
     return true;

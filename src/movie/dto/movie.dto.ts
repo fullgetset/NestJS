@@ -3,6 +3,7 @@ import {
   IsArray,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   Max,
@@ -13,7 +14,7 @@ export class MovieDto {
   @ApiProperty({
     description: 'Название фильма',
     example: 'Ночная ночь',
-    type: Number,
+    type: String,
   })
   @IsNotEmpty()
   @IsString()
@@ -38,6 +39,7 @@ export class MovieDto {
     ],
     type: [String],
   })
+  @IsOptional()
   @IsArray()
   @IsUUID('4', { each: true })
   actorIds: string[];
@@ -47,6 +49,7 @@ export class MovieDto {
     example: 'https://storage.example.com/posters/1',
     type: String,
   })
+  @IsOptional()
   @IsString()
   imageUrl: string;
 }
